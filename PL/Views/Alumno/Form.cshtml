@@ -1,0 +1,63 @@
+﻿@model ML.Alumno
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="text-center">
+    <h2>Formulario para registrar alumno</h2>
+</div>
+<hr />
+<div class="container">
+    @using (Html.BeginForm("Form","Alumno",FormMethod.Post,new {enctype="multipart/form-data"}))
+    {
+    <div class="row">
+        @Html.HiddenFor(model=>Model.IdAlumno)
+        <div class="col-md-3">
+            @Html.LabelFor(Model=>Model.Nombre)
+            @Html.TextBoxFor(Model=>Model.Nombre,new {@class="form-control"})
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(Model=>Model.Genero)<br />
+            @Html.RadioButtonFor(model=>Model.Genero, "false")
+            <label class="form-check-label" for="flexRadioDefault1">
+                Mujer
+            </label>
+            <br />
+            @Html.RadioButtonFor(model=>Model.Genero, "true")
+            <label class="form-check-label" for="flexRadioDefault1">
+                Hombre
+            </label>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model=>Model.Edad)
+            @Html.TextBoxFor(model=>Model.Edad,new {@class="form-control", @onblur="return ValidarNumeros(this);",@name="numero",@id="numero", @maxlength="2"})
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <input id="btnGuardar" type="submit" class="btn btn-success"  value="Guardar"/>
+        <a href="@Url.Action("GetAll","Alumno")" class="btn btn-danger">Regresar</a>
+        </div>
+    </div>
+    }
+</div>
+<script>
+function ValidarNumeros(elemento){
+    var numero=parseInt(elemento.value,10);
+   
+    if(isNaN(numero)){
+        alert("Ingresa solo números.");
+        elemento.focus();
+        elemento.select();
+        return false;
+    }
+    if(numero<15 || numero>18){
+        alert("Solo se permite el siguiente rango 15 - 18");
+        elemento.focus();
+        return false;
+    }
+    return true;
+}
+</script>
